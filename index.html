@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ClawBet | OpenClaw Agent Console</title>
+    <meta name="description" content="A terminal-native agent console inspired by OpenClaw. Deploy objectives, watch execution, seal checkpoints." />
+    <link rel="icon" type="image/png" href="static/favi.png">
+    <link rel="apple-touch-icon" href="static/favi.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="static/styles.css" />
+</head>
+
+<body>
+    <div class="bg-effects" aria-hidden="true">
+        <div class="glow g1"></div>
+        <div class="glow g2"></div>
+        <div class="glow g3"></div>
+        <canvas id="emberfield" class="starfield"></canvas>
+    </div>
+
+    <div class="particles" aria-hidden="true">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="#top" class="nav-brand" aria-label="ClawBet Home">
+        <img src="static/logo.png" alt="ClawBet Logo" class="nav-logo">
+        <span class="nav-name">Claw<span class="nav-name-accent">Bet</span></span>
+        <span class="nav-tag">Agent Console</span>
+        </a>
+
+            <div class="nav-links">
+                <a href="#shell" class="nav-link">Shell</a>
+                <a href="#modules" class="nav-link">Modules</a>
+                <a class="btn btn--primary btn--sm" href="https://x.com/clawterm" target="_blank" rel="noopener noreferrer">
+          Follow us on X
+        </a>
+            </div>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#shell" class="mobile-menu-link">Shell</a>
+        <a href="#modules" class="mobile-menu-link">Modules</a>
+        <a href="https://x.com/clawterm" target="_blank" rel="noopener noreferrer" class="btn btn--primary" style="width:100%;text-align:center;margin-top:8px;">
+      Follow us on X
+    </a>
+    </div>
+
+    <main id="top">
+        <section class="shell" id="shell">
+            <div class="container">
+                <div class="shell-header reveal">
+                    <div class="pill">
+                        <span class="pill-dot"></span> OpenClaw-inspired runtime • checkpointed execution
+                    </div>
+
+                    <h1 class="shell-title">
+                        Command execution from the <span class="gradient-text">terminal</span>.
+                    </h1>
+
+                    <p class="shell-sub">
+                        ClawBet is a terminal-native control surface for autonomous agents. Define an objective, monitor each step in the execution trace, and seal progress into checkpoints that can be inspected and replayed.
+                    </p>
+                </div>
+
+                <div class="terminal-shell glass-card reveal">
+                    <div class="ts-topbar">
+                        <div class="mock-dots">
+                            <span class="dot dot--red"></span>
+                            <span class="dot dot--yellow"></span>
+                            <span class="dot dot--green"></span>
+                        </div>
+                        <div class="ts-title">
+                            <span class="mono">claw://shell</span>
+                            <span class="ts-pill">LIVE</span>
+                        </div>
+                        <div class="ts-actions">
+                            <button class="ts-btn" id="btnClear" title="Clear output">Clear</button>
+                            <button class="ts-btn" id="btnSeed" title="Insert example command">Example</button>
+                        </div>
+                    </div>
+
+                    <div class="ts-tabs" role="tablist" aria-label="Terminal tabs">
+                        <button class="tab active" data-tab="about" role="tab" aria-selected="true">ABOUT</button>
+                        <button class="tab" data-tab="caps" role="tab" aria-selected="false">CAPS</button>
+                        <button class="tab" data-tab="run" role="tab" aria-selected="false">RUN</button>
+                        <button class="tab" data-tab="signals" role="tab" aria-selected="false">SIGNALS</button>
+                        <div class="tab-underline" id="tabUnderline" aria-hidden="true"></div>
+                    </div>
+
+                    <div class="ts-body">
+                        <div class="ts-viewport">
+                            <div class="ts-output mono" id="output">
+                                <div class="dim">ClawBet ready.</div>
+                                <div class="dim">Run <span class="ok">help</span> to list commands, or deploy an objective with <span class="ok">deploy --objective "..."</span></div>
+                                <div class="dim">—</div>
+                            </div>
+
+                            <form class="ts-input" id="cmdForm" autocomplete="off">
+                                <span class="prompt mono">claw@core</span>
+                                <span class="prompt dim mono">:</span>
+                                <span class="prompt mono">~</span>
+                                <span class="prompt dim mono">$</span>
+                                <input class="mono" id="cmd" spellcheck="false" placeholder='deploy --objective "Design a product launch plan for a devtool"' />
+                                <button class="btn btn--primary btn--sm" type="submit">Run</button>
+                            </form>
+                        </div>
+
+                        <aside class="ts-hud">
+                            <div class="hud-card glass-card">
+                                <div class="hud-title">
+                                    <span class="badge">CLAW</span>
+                                    <span class="mono dim">core.module</span>
+                                </div>
+
+                                <div class="hud-core">
+                                    <div class="core-stage" aria-hidden="true">
+                                        <div class="core-orbit o1"></div>
+                                        <div class="core-orbit o2"></div>
+                                        <div class="core-nucleus"></div>
+
+                                        <div class="claw claw-left"></div>
+                                        <div class="claw claw-right"></div>
+
+                                        <div class="core-pulse p1"></div>
+                                        <div class="core-pulse p2"></div>
+                                        <div class="core-pulse p3"></div>
+
+                                        <div class="ember e1"></div>
+                                        <div class="ember e2"></div>
+                                        <div class="ember e3"></div>
+                                        <div class="ember e4"></div>
+                                    </div>
+                                </div>
+
+                                <div class="hud-metrics">
+                                    <div class="hud-m">
+                                        <div class="hud-k" id="mState">ARMED</div>
+                                        <div class="hud-l">state</div>
+                                    </div>
+                                    <div class="hud-m">
+                                        <div class="hud-k" id="mEpoch">—</div>
+                                        <div class="hud-l">epoch</div>
+                                    </div>
+                                    <div class="hud-m">
+                                        <div class="hud-k" id="mHeat">—°</div>
+                                        <div class="hud-l">heat</div>
+                                    </div>
+                                </div>
+
+                                <div class="hud-line mono" id="hudLine">awaiting objective…</div>
+                            </div>
+
+                            <div class="hud-mini glass-card">
+                                <div class="hud-mini-title">Quick commands</div>
+                                <div class="hud-chips mono">
+                                    <button class="chipbtn" data-cmd='help'>help</button>
+                                    <button class="chipbtn" data-cmd='deploy --objective "Draft a landing page structure and copy"'>deploy…</button>
+                                    <button class="chipbtn" data-cmd='probe --objective "Break this idea into milestones and tasks"'>probe…</button>
+                                    <button class="chipbtn" data-cmd='audit --objective "Identify risks, assumptions, and missing info"'>audit…</button>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section class="section section--alt" id="modules">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div class="pill pill--center">Modules</div>
+                    <h2 class="section-title">Operational modules, <span class="gradient-text">built for control</span></h2>
+                    <p class="section-sub">
+                        Each module reflects how real agent runtimes behave: route selection, verification signals, and durable checkpoints.
+                    </p>
+                </div>
+
+                <div class="module-grid">
+                    <div class="module glass-card reveal">
+                        <div class="module-head">
+                            <span class="mod-dot"></span>
+                            <div>
+                                <div class="module-title">Route Selector</div>
+                                <div class="module-sub mono">route: stable | guarded | fast</div>
+                            </div>
+                        </div>
+                        <div class="module-text">
+                            Chooses execution strategy based on urgency, tool availability, and verification requirements. Stable favors reliability, fast favors speed, guarded increases checks and redundancy.
+                        </div>
+                    </div>
+
+                    <div class="module glass-card reveal reveal--delay-1">
+                        <div class="module-head">
+                            <span class="mod-dot"></span>
+                            <div>
+                                <div class="module-title">Proof Armory</div>
+                                <div class="module-sub mono">proof: armed → verified</div>
+                            </div>
+                        </div>
+                        <div class="module-text">
+                            Attaches integrity signals to a run: summaries, consistency checks, and “what changed” diffs so outputs can be reviewed without guessing what the agent did.
+                        </div>
+                    </div>
+
+                    <div class="module glass-card reveal reveal--delay-2">
+                        <div class="module-head">
+                            <span class="mod-dot"></span>
+                            <div>
+                                <div class="module-title">Checkpoint Sealer</div>
+                                <div class="module-sub mono">checkpoint: queued → sealed</div>
+                            </div>
+                        </div>
+                        <div class="module-text">
+                            Persists the run state into a checkpoint to support replay, auditing, and safe continuation. Checkpoints reduce drift and make agent behavior easier to reason about over time.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scanline glass-card reveal">
+                    <div class="scanline-top">
+                        <div class="scanline-title">Signal bus</div>
+                        <div class="scanline-sub mono">telemetry stream</div>
+                    </div>
+                    <div class="scanline-strip" aria-hidden="true">
+                        <div class="scanbar"></div>
+                    </div>
+                    <div class="scanline-note">
+                        Telemetry is surfaced as first-class UI: epoch progression, core heat, route choice, and proof/checkpoint state. The goal is visibility — not mystery.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <span class="footer-name">ClawBet</span>
+                    <span class="footer-copy">© 2026 — terminal-native agent operations</span>
+                </div>
+                <div class="footer-links">
+                    <a href="#shell" class="footer-link">Shell</a>
+                    <a href="#modules" class="footer-link">Modules</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="static/app.js"></script>
+</body>
+
+</html>
