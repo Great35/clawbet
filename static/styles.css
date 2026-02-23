@@ -284,26 +284,7 @@ img {
     animation-duration: 19s;
     animation-delay: 7s
 }
-/* Add this to the end of your static/styles.css file */
-@media (max-width: 768px) {
-    .nav-logo {
-        width: 48px;
-        height: 48px;
-    }
-    
-    /* Optional: Adjust spacing to accommodate larger logo */
-    .nav-brand {
-        gap: 12px;
-    }
-}
 
-/* Even larger on very small phones if needed */
-@media (max-width: 480px) {
-    .nav-logo {
-        width: 52px;
-        height: 52px;
-    }
-}
 @keyframes particleFloat {
     0% {
         transform: translateY(105vh) scale(0);
@@ -1258,8 +1239,8 @@ img {
 }
 
 .nav-logo {
-    width: 36px;
-    height: 36px;
+    width: 43px;  /* 20% larger than original 36px */
+    height: 43px; /* 20% larger than original 36px */
     object-fit: contain;
     border-radius: 8px;
     filter: drop-shadow(0 0 8px rgba(255, 80, 0, 0.4));
@@ -1297,6 +1278,27 @@ img {
     background: linear-gradient(180deg, rgba(255, 45, 45, 0.75), rgba(255, 122, 24, 0.85));
 }
 
+/* Tablet and Phone view adjustments */
+@media (max-width: 860px) {
+    .nav-logo {
+        width: 52px;  /* 20% larger than the 43px desktop size */
+        height: 52px;
+    }
+    
+    /* Adjust the brand spacing for larger logo */
+    .nav-brand {
+        gap: 12px;
+    }
+}
+
+/* Small phone view */
+@media (max-width: 480px) {
+    .nav-logo {
+        width: 58px;  /* Even larger on very small screens */
+        height: 58px;
+    }
+}
+
 @media (min-width: 981px) {
     .ts-hud {
         max-height: 420px;
@@ -1309,5 +1311,4 @@ img {
         overflow: visible;
         padding-right: 0;
     }
-
 }
