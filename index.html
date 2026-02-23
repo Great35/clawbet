@@ -13,6 +13,112 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="static/styles.css" />
+    <style>
+        /* Logo animation styles */
+        .hud-logo-container {
+            position: absolute;
+            inset: 12px;
+            border-radius: 16px;
+            background: radial-gradient(520px 360px at 30% 30%, rgba(255, 45, 45, 0.12), transparent 55%), 
+                        radial-gradient(480px 340px at 80% 65%, rgba(255, 122, 24, 0.14), transparent 55%), 
+                        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.12));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hud-logo-container::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), 
+                              linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 56px 56px;
+            opacity: .42;
+            mask-image: radial-gradient(circle at 55% 45%, rgba(0, 0, 0, 0.65) 0%, transparent 70%);
+            -webkit-mask-image: radial-gradient(circle at 55% 45%, rgba(0, 0, 0, 0.65) 0%, transparent 70%);
+        }
+        
+        .hud-animated-logo {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 20px rgba(255, 122, 24, 0.6));
+            animation: logoPulse 3s ease-in-out infinite, logoRotate 12s linear infinite;
+            z-index: 2;
+            border-radius: 24px;
+        }
+        
+        @keyframes logoPulse {
+            0%, 100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 20px rgba(255, 122, 24, 0.6));
+            }
+            50% {
+                transform: scale(1.08);
+                filter: drop-shadow(0 0 35px rgba(255, 45, 45, 0.8));
+            }
+        }
+        
+        @keyframes logoRotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* Orbiting particles around logo */
+        .logo-orbit {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 122, 24, 0.3);
+            animation: orbitSpin 8s linear infinite;
+            opacity: 0.6;
+        }
+        
+        .logo-orbit.o2 {
+            width: 220px;
+            height: 220px;
+            border-color: rgba(255, 45, 45, 0.2);
+            animation-direction: reverse;
+            animation-duration: 12s;
+        }
+        
+        .orbit-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--accent2);
+            border-radius: 50%;
+            top: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 15px var(--accent2);
+            animation: dotGlow 2s ease-in-out infinite;
+        }
+        
+        .orbit-dot.dot2 {
+            background: var(--accent);
+            box-shadow: 0 0 15px var(--accent);
+            animation-delay: 1s;
+        }
+        
+        @keyframes dotGlow {
+            0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.3); }
+        }
+        
+        @keyframes orbitSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 
 <body>
@@ -136,22 +242,15 @@
                                 </div>
 
                                 <div class="hud-core">
-                                    <div class="core-stage" aria-hidden="true">
-                                        <div class="core-orbit o1"></div>
-                                        <div class="core-orbit o2"></div>
-                                        <div class="core-nucleus"></div>
-
-                                        <div class="claw claw-left"></div>
-                                        <div class="claw claw-right"></div>
-
-                                        <div class="core-pulse p1"></div>
-                                        <div class="core-pulse p2"></div>
-                                        <div class="core-pulse p3"></div>
-
-                                        <div class="ember e1"></div>
-                                        <div class="ember e2"></div>
-                                        <div class="ember e3"></div>
-                                        <div class="ember e4"></div>
+                                    <!-- REPLACED: core-stage with logo animation -->
+                                    <div class="hud-logo-container" aria-hidden="true">
+                                        <div class="logo-orbit">
+                                            <div class="orbit-dot"></div>
+                                        </div>
+                                        <div class="logo-orbit o2">
+                                            <div class="orbit-dot dot2"></div>
+                                        </div>
+                                        <img src="static/logo.png" alt="ClawBet Logo" class="hud-animated-logo">
                                     </div>
                                 </div>
 
