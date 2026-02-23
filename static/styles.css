@@ -284,7 +284,26 @@ img {
     animation-duration: 19s;
     animation-delay: 7s
 }
+/* Add this to the end of your static/styles.css file */
+@media (max-width: 768px) {
+    .nav-logo {
+        width: 48px;
+        height: 48px;
+    }
+    
+    /* Optional: Adjust spacing to accommodate larger logo */
+    .nav-brand {
+        gap: 12px;
+    }
+}
 
+/* Even larger on very small phones if needed */
+@media (max-width: 480px) {
+    .nav-logo {
+        width: 52px;
+        height: 52px;
+    }
+}
 @keyframes particleFloat {
     0% {
         transform: translateY(105vh) scale(0);
@@ -1290,4 +1309,5 @@ img {
         overflow: visible;
         padding-right: 0;
     }
+
 }
